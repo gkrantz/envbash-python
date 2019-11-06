@@ -19,7 +19,7 @@ FIXUPS = ['_', 'OLDPWD', 'PWD', 'SHLVL']
 def read_envbash(envbash, bash='bash', env=os.environ,
                  missing_ok=False, fixups=None, argstring=None):
     """
-    Read ``envbash`` and return the resulting environment as a dictionary.
+    Source ``envbash`` and return the resulting environment as a dictionary.
     """
     # make sure the file exists and is readable.
     # alternatively we could test os.access (especially on Python 3.3+ with
