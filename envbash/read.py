@@ -33,13 +33,17 @@ def read_envbash(envbash, bash='bash', env=os.environ,
             return
         raise
 
+    # sanitize argument string
+    sanitized_args = map(lambda x: pipes.quote(x), argstring.split())
+    sanitized_argstring = ' '.join(sanitized_args)
+
     # construct an inline script which sources env.bash then prints the
     # resulting environment so it can be eval'd back into this process.
     inline = '''
         set -a
         source {} {} >/dev/null
         {} -c "import os; print(repr(dict(os.environ)))"
-    '''.format(pipes.quote(envbash), pipes.quote(argstring), pipes.quote(sys.executable))
+    '''.format(pipes.quote(envbash), sanitized_argstring, pipes.quote(sys.executable))
 
     # run the inline script with bash -c, capturing stdout. if there is any
     # error output from env.bash, it will pass through to stderr.
