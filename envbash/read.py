@@ -17,7 +17,7 @@ FIXUPS = ['_', 'OLDPWD', 'PWD', 'SHLVL']
 
 
 def read_envbash(envbash, bash='bash', env=os.environ,
-                 missing_ok=False, fixups=None, argstring=None):
+                 missing_ok=False, fixups=None, argstring=""):
     """
     Source ``envbash`` and return the resulting environment as a dictionary.
     """
