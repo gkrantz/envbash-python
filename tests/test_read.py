@@ -105,3 +105,13 @@ def test_read_three_arguments(tmpdir):
     assert result['B'] == 'BAR'
     assert result['C'] == 'BAZ'
     assert result['D'] == 'QUX'
+
+
+def test_read_space_argument(tmpdir):
+    tmpfile = tmpdir.join('env.bash')
+    tmpfile.write('A=$1')
+    myenv = {'B': 'BAZ'}
+    result = read_envbash(str(tmpfile), env=myenv, argstring='"FOO BAR" BAZ')
+    assert result['A'] == 'FOO BAR'
+    assert result['B'] == 'BAZ'
+
