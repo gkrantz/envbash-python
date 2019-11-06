@@ -84,3 +84,24 @@ def test_read_fixups(tmpdir):
     assert 'C' not in result   # fixups, not myenv, env.bash
     assert result['E'] == 'F'  # not fixups, myenv, env.bash
     assert result['G'] == 'H'  # not fixups, not myenv, env.bash
+
+
+def test_read_one_argument(tmpdir):
+    tmpfile = tmpdir.join('env.bash')
+    tmpfile.write('A=$1; B="BAR"')
+    myenv = {'A': 'X', 'B': 'Y', 'C': 'BAZ'}
+    result = read_envbash(str(tmpfile), env=myenv, argstring='FOO')
+    assert result['A'] == 'FOO'
+    assert result['B'] == 'BAR'
+    assert result['C'] == 'BAZ'
+
+
+def test_read_three_arguments(tmpdir):
+    tmpfile = tmpdir.join('env.bash')
+    tmpfile.write('A=$1; B=$2; C=$3; D="QUX"')
+    myenv = {'D': 'Z'}
+    result = read_envbash(str(tmpfile), env=myenv, argstring='FOO BAR BAZ')
+    assert result['A'] == 'FOO'
+    assert result['B'] == 'BAR'
+    assert result['C'] == 'BAZ'
+    assert result['D'] == 'QUX'
