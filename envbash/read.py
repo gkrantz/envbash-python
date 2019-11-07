@@ -17,7 +17,7 @@ FIXUPS = ['_', 'OLDPWD', 'PWD', 'SHLVL']
 
 
 def read_envbash(envbash, bash='bash', env=os.environ,
-                 missing_ok=False, fixups=None, argstring=""):
+                 missing_ok=False, fixups=None, arguments=[]):
     """
     Source ``envbash`` and return the resulting environment as a dictionary.
     """
@@ -33,9 +33,9 @@ def read_envbash(envbash, bash='bash', env=os.environ,
             return
         raise
 
-    # sanitize argument string
-    sanitized_args = map(lambda x: pipes.quote(x), argstring.split())
-    sanitized_argstring = ' '.join(sanitized_args)
+    # sanitize arguments and join them into a single string
+    sanitized_arguments = map(lambda x: pipes.quote(x), arguments)
+    sanitized_argstring = ' '.join(sanitized_arguments)
 
     # construct an inline script which sources env.bash then prints the
     # resulting environment so it can be eval'd back into this process.
